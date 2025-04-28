@@ -15,7 +15,6 @@ export default function SignInScreen({ navigation }) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigation.replace('Home');
     } catch (error) {
       console.error(error);
       Alert.alert('Sign In Failed', error.message);

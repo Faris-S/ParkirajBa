@@ -24,7 +24,6 @@ export default function SignUpScreen({ navigation }) {
         penalties: 0,
       });
 
-      navigation.replace('Home');
     } catch (error) {
       console.error(error);
       Alert.alert('Signup Failed', error.message);
