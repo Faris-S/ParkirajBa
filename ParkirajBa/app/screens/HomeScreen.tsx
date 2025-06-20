@@ -82,7 +82,7 @@ export default function HomeScreen() {
     const fetchParkings = async () => {
       let q = collection(db, 'parkings');
       if (selectedCategory !== 'all') {
-        q = query(q, where('type', '==', selectedCategory));
+        q = query(q, where('category', '==', selectedCategory));
       }
       const snapshot = await getDocs(q);
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -229,6 +229,22 @@ export default function HomeScreen() {
           <Text style={styles.activeText}>Reserved: {parkings.find(p => p.id === activeReservation.parkingId)?.name || 'Parking'}</Text>
           <Text style={styles.activeText}>Time left: {countdown}</Text>
           <Button title="Cancel" onPress={() => cancelReservation(activeReservation.id)} color="red" />
+        </View>
+      )}
+
+      <TouchableOpacity style={styles.fab} onPress={() => setShowCategoryPicker(!showCategoryPicker)}>
+        <Ionicons name="filter" size={24} color="white" />
+      </TouchableOpacity>
+
+      {showCategoryPicker && (
+        <View style={styles.categoryPicker}>
+          <Text style={{ fontWeight: 'bold', marginBottom: 4 }}>Filter by Type:</Text>
+          <Picker selectedValue={selectedCategory} onValueChange={(val) => setSelectedCategory(val)}>
+            <Picker.Item label="All" value="all" />
+            <Picker.Item label="Garage" value="garage" />
+            <Picker.Item label="Parking Lot" value="parking_lot" />
+            <Picker.Item label="Street Parking" value="street_parking" />
+          </Picker>
         </View>
       )}
 

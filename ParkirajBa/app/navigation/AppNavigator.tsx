@@ -16,7 +16,7 @@ function AppDrawer() {
   return (
     <Drawer.Navigator
   screenOptions={{
-    headerShown: false, // ✅ hides top bar
+    headerShown: false,
   }}
   drawerContent={(props) => <DrawerContent {...props} />}
 >
