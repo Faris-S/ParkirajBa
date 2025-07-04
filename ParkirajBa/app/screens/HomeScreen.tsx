@@ -60,6 +60,7 @@ export default function HomeScreen() {
   const [showCategoryPicker, setShowCategoryPicker] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
 
+  //Getting User Location
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -78,6 +79,7 @@ export default function HomeScreen() {
     })();
   }, []);
 
+  // Fetching Parking spots
   useEffect(() => {
     const fetchParkings = async () => {
       let q = collection(db, 'parkings');
@@ -91,6 +93,7 @@ export default function HomeScreen() {
     fetchParkings();
   }, [selectedCategory]);
 
+  // Active Reservation Tracking
   useEffect(() => {
     if (!auth.currentUser) return;
     const q = query(collection(db, 'reservations'), where('userId', '==', auth.currentUser.uid), where('status', '==', 'active'));
@@ -115,6 +118,7 @@ export default function HomeScreen() {
     return unsubscribe;
   }, []);
 
+  // Countdown Timer
   useEffect(() => {
     let timer;
     if (activeReservation && activeReservation.time) {
@@ -128,6 +132,7 @@ export default function HomeScreen() {
     return () => clearInterval(timer);
   }, [activeReservation]);
 
+  // Handle Reservation
   const handleReserve = async () => {
     if (!auth.currentUser) return Alert.alert('Error', 'User not logged in.');
 
@@ -167,6 +172,7 @@ export default function HomeScreen() {
     }
   };
 
+  // Cancel Reservation
   const cancelReservation = async (id) => {
     try {
       const reservationRef = doc(db, 'reservations', id);
